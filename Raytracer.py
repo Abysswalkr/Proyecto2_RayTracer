@@ -7,8 +7,8 @@ from lights import *
 from texture import Texture
 
 # Configuración de pantalla
-width =  1000
-height = 740
+width =  400
+height = 240
 
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
@@ -28,6 +28,12 @@ blueMirror = Material(difuse=[0.2,0.2,0.9], spec=128, Ks=0.2, matType=REFLECTIVE
 glass = Material(spec = 128, Ks=0.2, ior=1.5, matType= TRANSPARENT)
 vidrio = Material(texture = Texture('Textures/vidrio.bmp'), spec=128, Ks=0.2, matType=REFLECTIVE)
 
+# Materiales
+default_material = Material(difuse=[1, 1, 1], spec=64)
+yellow_material = Material(difuse=[1, 1, 0.2], spec=64)
+blue_material = Material(difuse=[0.2, 0.2, 1], spec=64)
+black_material = Material(difuse=[0, 0, 0], spec=64)
+
 lava = Material(texture = Texture('Textures/lava.bmp'), spec=128, Ks=0.2, matType=OPAQUE)
 mandala = Material(texture = Texture('Textures/mandala.bmp'), spec=128, Ks=0.2)
 bubuja = Material(texture = Texture('Textures/burbujas.bmp'), spec=128, Ks=0.2, matType=TRANSPARENT)
@@ -36,42 +42,53 @@ deathStar = Material(difuse=[1, 1, 1], texture=Texture('Textures/deathStar.bmp')
 champions = Material(texture = Texture('Textures/champions.bmp'), spec=128, Ks=0.2, matType=OPAQUE)
 holograma = Material(texture = Texture('Textures/holograma.bmp'), spec=128, Ks=0.2, matType=OPAQUE)
 
+#Posicion de camera
+rt.camera.translate = [0, 0, 10]
 
-# Coordenadas de la pirámide
-# Vértices de la base cuadrada
-# Triángulos ajustados en tamaño y posición
-v0 = [-4, 0.5, -10]
-v1 = [-2, 0.5, -10]
-v2 = [-3, 3, -10]
-triangle = Triangle(v0, v1, v2, material=bubuja)
-rt.scene.append(triangle)
+# Figuras
+# 1. Esfera
+sphere = Sphere(position=[0, 3, -10], radius=1.5, material=blue_material)
+rt.scene.append(sphere)
 
-v3 = [2.5, 2.5, -9]
-v4 = [0.7, 2, -8]
-v5 = [1.5, 4.5, -9]
-triangle2 = Triangle(v3, v4, v5, material=lava)
-rt.scene.append(triangle2)
-
-v0 = [-3, -1.5, -4]
-v1 = [2, -1.5, -4]
-v2 = [-3, -1.5, -8]
-triangle3 = Triangle(v0, v1, v2, material=holograma)
-rt.scene.append(triangle3)
-
-# Cilindros con posiciones y tamaños variados
-cylinder = Cylinder(position=[-1, -2, -6], radius=0.8, height=1.2, material=reptil)
+# 2. Cilindro (debajo de la esfera)
+cylinder = Cylinder(position=[0, 1, -10], radius=1.2, height=4, material=yellow_material)
 rt.scene.append(cylinder)
 
-cylinder2 = Cylinder(position=[2.5, -1, -7], radius=1.5, height=1.5, material=glass)
-rt.scene.append(cylinder2)
+# 3. Triángulo (pirámide sobre cubo)
+triangle_1 = Triangle(v0=[3, -1, -10], v1=[5, -1, -10], v2=[2, 5, -10], material=black_material)
+rt.scene.append(triangle_1)
 
-cylinder3 = Cylinder(position=[0.5, 1, -8], radius=0.7, height=0.8, material=mandala)
-rt.scene.append(cylinder3)
+# 4. Triángulo (pirámide sobre cubo grande)
+triangle_2 = Triangle(v0=[-3, -1, -10], v1=[-5, -1, -10], v2=[-2, 5, -10], material=black_material)
+rt.scene.append(triangle_2)
 
+# 5. Triángulo (sobre cilindro pequeño)
+triangle_3 = Triangle(v0=[-7, 2, -8], v1=[-9, -1, -8], v2=[-8, 4, -8], material=black_material)
+rt.scene.append(triangle_3)
 
-# Crear el toroide y añadirlo a la escena
-#toroide = Torus(position=[0, 0, -5], major_radius=2, minor_radius=0.5, material=bubuja)
-#rt.scene.append(toroide)
+# 6. Triángulo (sobre cilindro pequeño)
+triangle_4 = Triangle(v0=[7, 2, -8], v1=[9, -1, -8], v2=[8, 4, -8], material=black_material)
+rt.scene.append(triangle_4)
+
+# 7. Cilindro (pequeño a la derecha)
+small_cylinder_1 = Cylinder(position=[8, -2, -8], radius=1, height=3, material=yellow_material)
+rt.scene.append(small_cylinder_1)
+
+# 8. Cilindro (pequeño a la izquierda)
+small_cylinder_2 = Cylinder(position=[-8, -2, -8], radius=1, height=3, material=yellow_material)
+rt.scene.append(small_cylinder_2)
+
+# 9. Cubo AABB grande (debajo del triángulo grande)
+cube_1 = AABB(position=[-4, -2, -10], sizes=[2, 2, 2], material=default_material)
+rt.scene.append(cube_1)
+
+# 10. Cubo AABB (debajo del triángulo 3)
+cube_2 = AABB(position=[4, -2, -10], sizes=[2, 2, 2], material=default_material)
+rt.scene.append(cube_2)
+
+# 11. Cubo AABB (debajo del cilindro central)
+cube_2 = AABB(position=[0, -2, -10], sizes=[3, 3, 3], material=default_material)
+rt.scene.append(cube_2)
 
 
 # Iluminación
