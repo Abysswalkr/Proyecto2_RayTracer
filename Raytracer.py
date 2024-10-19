@@ -98,8 +98,16 @@ rt.scene.append(Disk(position=[0, -2.6, 0], normal=[0, -1, 0], radius=8, materia
 
 
 # Iluminación
-#rt.lights.append(DirectionalLight(direction=[0, 0, -1], intensity=1.0))
+rt.lights.append(DirectionalLight(direction=[0, 0, -1], intensity=1.0))
 rt.lights.append(AmbientLight(intensity=0.5))
+
+# Luz SpotLight que ilumine la esfera
+point_light = PointLight(
+    color=[1, 1, 1],   # Luz blanca
+    intensity=5,     # Ajustar la intensidad
+    position=[0, 0, -4]  # Posición cerca de la esfera
+)
+rt.lights.append(point_light)
 
 # Renderizado de la escena
 rt.glRender()
