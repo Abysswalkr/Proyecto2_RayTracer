@@ -27,6 +27,7 @@ mirror = Material(difuse = [0.9,0.9,0.9], spec = 128, Ks = 0.2, matType = REFLEC
 blueMirror = Material(difuse=[0.2,0.2,0.9], spec=128, Ks=0.2, matType=REFLECTIVE)
 glass = Material(spec = 128, Ks=0.2, ior=1.5, matType= TRANSPARENT)
 vidrio = Material(texture = Texture('Textures/vidrio.bmp'), spec=128, Ks=0.2, matType=REFLECTIVE)
+greenmirror = Material(difuse=[0.5, 1, 0.5], spec=128, Ks=0.2, matType=REFLECTIVE)
 
 # Materiales
 default_material = Material(difuse=[1, 1, 1], spec=64)
@@ -47,48 +48,53 @@ rt.camera.translate = [0, 0, 10]
 
 # Figuras
 # 1. Esfera
-sphere = Sphere(position=[0, 3, -10], radius=1.5, material=blue_material)
+sphere = Sphere(position=[0, 3, -10], radius=1.5, material=glass)
 rt.scene.append(sphere)
 
 # 2. Cilindro (debajo de la esfera)
-cylinder = Cylinder(position=[0, 1, -10], radius=1.2, height=4, material=yellow_material)
+cylinder = Cylinder(position=[0, 1, -10], radius=1.2, height=4, material=lava)
 rt.scene.append(cylinder)
 
-# 3. Triángulo (pirámide sobre cubo)
-triangle_1 = Triangle(v0=[3, -1, -10], v1=[5, -1, -10], v2=[2, 5, -10], material=black_material)
+# 3. Triángulo (pirámide sobre cubo derecha)
+triangle_1 = Triangle(v0=[3, -1, -10], v1=[5, -1, -10], v2=[2, 5, -10], material=holograma)
 rt.scene.append(triangle_1)
 
-# 4. Triángulo (pirámide sobre cubo grande)
-triangle_2 = Triangle(v0=[-3, -1, -10], v1=[-5, -1, -10], v2=[-2, 5, -10], material=black_material)
+# 4. Triángulo (pirámide sobre cubo izquierda)
+triangle_2 = Triangle(v0=[-3, -1, -10], v1=[-5, -1, -10], v2=[-2, 5, -10], material=holograma)
 rt.scene.append(triangle_2)
 
 # 5. Triángulo (sobre cilindro pequeño)
-triangle_3 = Triangle(v0=[-7, 2, -8], v1=[-9, -1, -8], v2=[-8, 4, -8], material=black_material)
+triangle_3 = Triangle(v0=[-7, 2, -8], v1=[-9, -1, -8], v2=[-8, 4, -8], material=blueMirror)
 rt.scene.append(triangle_3)
 
 # 6. Triángulo (sobre cilindro pequeño)
-triangle_4 = Triangle(v0=[7, 2, -8], v1=[9, -1, -8], v2=[8, 4, -8], material=black_material)
+triangle_4 = Triangle(v0=[7, 2, -8], v1=[9, -1, -8], v2=[8, 4, -8], material=blueMirror)
 rt.scene.append(triangle_4)
 
 # 7. Cilindro (pequeño a la derecha)
-small_cylinder_1 = Cylinder(position=[8, -2, -8], radius=1, height=3, material=yellow_material)
+small_cylinder_1 = Cylinder(position=[8, -2, -8], radius=1, height=3, material=bubuja)
 rt.scene.append(small_cylinder_1)
 
 # 8. Cilindro (pequeño a la izquierda)
-small_cylinder_2 = Cylinder(position=[-8, -2, -8], radius=1, height=3, material=yellow_material)
+small_cylinder_2 = Cylinder(position=[-8, -2, -8], radius=1, height=3, material=bubuja)
 rt.scene.append(small_cylinder_2)
 
-# 9. Cubo AABB grande (debajo del triángulo grande)
-cube_1 = AABB(position=[-4, -2, -10], sizes=[2, 2, 2], material=default_material)
+# 9. Cubo AABB grande (debajo del triángulo derecha)
+cube_1 = AABB(position=[-4, -2, -10], sizes=[2, 2, 2], material=mandala)
 rt.scene.append(cube_1)
 
-# 10. Cubo AABB (debajo del triángulo 3)
-cube_2 = AABB(position=[4, -2, -10], sizes=[2, 2, 2], material=default_material)
+# 10. Cubo AABB (debajo del triángulo izquierda)
+cube_2 = AABB(position=[4, -2, -10], sizes=[2, 2, 2], material=mandala)
 rt.scene.append(cube_2)
 
 # 11. Cubo AABB (debajo del cilindro central)
-cube_2 = AABB(position=[0, -2, -10], sizes=[3, 3, 3], material=default_material)
+cube_2 = AABB(position=[0, -2, -10], sizes=[3, 3, 3], material=reptil)
 rt.scene.append(cube_2)
+
+#12. Plano circular (debajo de todas las figuras)
+rt.scene.append(Disk(position=[0, -2.6, 0], normal=[0, -1, 0], radius=8, material=greenmirror))
+
+
 
 
 # Iluminación
