@@ -7,8 +7,8 @@ from lights import *
 from texture import Texture
 
 # Configuración de pantalla
-width =  400
-height = 240
+width =  720
+height = 720
 
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
@@ -101,13 +101,17 @@ rt.scene.append(Disk(position=[0, -2.6, 0], normal=[0, -1, 0], radius=8, materia
 rt.lights.append(DirectionalLight(direction=[0, 0, -1], intensity=1.0))
 rt.lights.append(AmbientLight(intensity=0.5))
 
-# Luz SpotLight que ilumine la esfera
-point_light = PointLight(
-    color=[1, 1, 1],   # Luz blanca
-    intensity=5,     # Ajustar la intensidad
-    position=[0, 0, -4]  # Posición cerca de la esfera
+# Luz SpotLight que ilumina el cilindro central
+spot_light = SpotLight(
+    color=[1, 1, 1],          # Luz blanca
+    intensity=10,              # Intensidad máxima
+    position=[0, 0, -8],      # Posición en el espacio
+    direction=[0, -1, 0],     # Dirección hacia abajo
+    innerAngle=30,            # Ángulo interior del foco
+    outerAngle=45             # Ángulo exterior del foco
 )
-rt.lights.append(point_light)
+
+rt.lights.append(spot_light)
 
 # Renderizado de la escena
 rt.glRender()
